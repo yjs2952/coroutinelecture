@@ -88,3 +88,37 @@
 - 코루틴을 **일시 중단 시키기 않고 취소확인**할 수 있는 방법
   - CoroutineScope.isActive
   - 코루틴에 취소 요청되면 isActive가 false로 바뀜
+
+### 코루틴의 상태와 Job 객체의 상태 변수
+- 코루틴 상태
+  ![img.png](img.png)
+  - Active
+    - 코루틴이 실행 중인 상태
+  - New
+    - 코루틴이 생성된 상태
+  - Completed
+    - 코루틴이 완료된 상태
+  - Cancelling
+    - 코루틴이 취소 중인 상태
+  - Cancelled
+    - 코루틴이 취소된 상태
+- 코루틴 상태를 job 객체 toString 으로 호출하는 건 좋지 않은 방법이다
+  - 라이브러리 내부에서만 사용하는 거라 외부에서 사용할 수 없다
+- Job 객체의 상태 변수
+  - Job 객체는 코루틴을 추상화한 객체여서 코루틴 상태를 간접적으로 나타낸다
+    - isActive
+      - 코루틴이 실행 중인 상태
+    - isCompleted
+      - 코루틴이 완료된 상태
+      - 코루틴이 실행 완료되거나 취소 완료된 상태
+    - isCancelled
+      - 코루틴에 취소가 요청됐는지 여부
+      - cancel 함수가 호출되기만 하면 true 를 반환하므로, 취소 중인 상태도 포함된다
+
+  | 코루틴 상태 | isActive | isCancelled | isCompleted |
+  |-------------|----------|-------------|--------------|
+  | 생성        | false    | false       | false        |
+  | 실행 중     | true     | false       | false        |
+  | 실행 완료   | false    | false       | true         |
+  | 취소 중     | false    | true        | false        |
+  | 취소 완료   | false    | true        | true         |
