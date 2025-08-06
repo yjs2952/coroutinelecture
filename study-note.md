@@ -29,11 +29,11 @@
 - Dispatchers.IO
   - 네트워크나 DB 작업 같은 입출력(I/O) 작업을 실행하는 디스패처 
   - 약 64개 스레드
-  - limitedParallelism 함수를 사용하면 공유 스레드풀의 별도 스레드 중 일부를 사용
+  - **limitedParallelism** 함수를 사용하면 **공유 스레드풀의 별도 스레드 중 일부를 사용**하는 CoroutineDispatcher를 반환
 - Dispatchers.Default
   - CPU 바운드 작업을 위한 디스패처
     - 이미지, 동영상 처리나 대용량 데이터 변환 같은 끊이지 않고 연산이 필요한 작업
-  - limitedParallelism 함수를 사용하면 Dispatcher.Default 스레드 중 일부를 사용하는 CoroutineDispatcher를 반환
+  - **limitedParallelism** 함수를 사용하면 **Dispatcher.Default 스레드 중 일부를 사용**하는 CoroutineDispatcher를 반환
 - Dispatchers.Main
   - main 스레드에서의 작업을 위한 디스패처
   - 기본 코루틴 라이브러리에는 구현체가 없다 (안드로이드 라이브러리 필요)
@@ -55,3 +55,16 @@
   - join 함수 호출 시에도 코루틴이 시작되지만 runBlocking 함수를 일시 중단한다
   - start 함수는 runBlocking 함수를 일시 중단하지 않고 다른 작업을 바로 할 수 있다
 - 코루틴이 시작되기 전까지는 코루틴의 상태가 CREATED 상태
+
+### 코루틴 취소
+- 코루틴 실행도중 취소하지 않으면 스레드를 계속 사용하기 때문에 어플리케이션 성능 저하를 유발할 수 있다
+- cancel 함수의 문제
+  - 코루틴을 즉시 취소하지 않고, 취소 플래그를 '취소 요청됨' 으로 바꾸는 역할만 함
+  - 이후 플래그가 확인되는 시점에 코루틴이 취소됨
+  - 즉 순차 진행이 필요한 곳에서 사용시 문제가 될 수 있음
+- cancelAndJoin 함수
+  - cancel 함수와 join 함수를 합친 함수
+  - 취소 요청 후 취소가 완료될때 까지 코루틴 호출 일시 중단
+  - 코루틴 블럭 내에서 Thread.sleep 같은 **블로킹 작업을 사용하면 취소가 되지 않음**
+    - 코루틴 블록이 끝나는 지점에 가서 중단이됨
+    - 즉시 중단하고 싶으면 Thread.sleep 대신 **delay** 함수를 사용해야 함
