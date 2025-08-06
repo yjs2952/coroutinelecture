@@ -28,7 +28,17 @@
 ### CoroutineDispatcher 종류
 - Dispatchers.IO
   - 네트워크나 DB 작업 같은 입출력(I/O) 작업을 실행하는 디스패처 
+  - limitedParallelism 함수를 사용하면 공유 스레드풀의 별도 스레드 중 일부를 사용
 - Dispatchers.Default
   - CPU 바운드 작업을 위한 디스패처
-    - 이미지, 동영상 처리나 대용량 데이터 변환 같은 끊이지 않고 연산이 필요한 작업 
+    - 이미지, 동영상 처리나 대용량 데이터 변환 같은 끊이지 않고 연산이 필요한 작업
+  - limitedParallelism 함수를 사용하면 Dispatcher.Default 스레드 중 일부를 사용하는 CoroutineDispatcher를 반환
 - Dispatchers.Main
+  - main 스레드에서의 작업을 위한 디스패처
+  - 기본 코루틴 라이브러리에는 구현체가 없다 (안드로이드 라이브러리 필요)
+  - Dispatchers.Main.immediate
+    - main 스레드에서 실행되는 코루틴을 즉시 실행할 수 있는 디스패처
+    - 코루틴을 요청하는 스레드가 메인 스레드일 경우 작업 대기열에 적재되지 않고 바로 메인 스레드에서 실행
+      - 안드로이드 UI 에 바로 반영이 되어 메인 디스패처 사용 시 권장됨
+
+[//]: # (    - main 스레드가 아닌 다른 스레드에서 호출하면, main 스레드가 준비될 때까지 대기)
