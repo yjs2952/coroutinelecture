@@ -24,3 +24,11 @@
 
 ### CoroutineDispatcher
 - 디스패처는 보내는 주체 따라서 코루틴 디스패처는 코루틴을 쓰레드로 보내 실행시키는 주체
+
+### CoroutineDispatcher 종류
+- Dispatchers.IO
+  - 네트워크나 DB 작업 같은 입출력(I/O) 작업을 실행하는 디스패처 
+- Dispatchers.Default
+  - CPU 바운드 작업을 위한 디스패처
+    - 이미지, 동영상 처리나 대용량 데이터 변환 같은 끊이지 않고 연산이 필요한 작업 
+- Dispatchers.Main
