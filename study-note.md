@@ -20,6 +20,10 @@
 - 코루틴은 스레드와 달리 실행 중에 중단하고 다시 시작할 수 있는 있음
 - 경량 스레드
 
+### 코루틴 디버깅
+- -Dkotlinx.coroutines.debug 
+  - 코루틴 디버깅을 활성화하는 JVM 옵션
+
 ## 섹션 3
 
 ### CoroutineDispatcher
@@ -116,9 +120,9 @@
       - cancel 함수가 호출되기만 하면 true 를 반환하므로, 취소 중인 상태도 포함된다
 
   | 코루틴 상태 | isActive | isCancelled | isCompleted |
-  |-------------|----------|-------------|--------------|
-  | 생성        | false    | false       | false        |
-  | 실행 중     | true     | false       | false        |
-  | 실행 완료   | false    | false       | true         |
-  | 취소 중     | false    | true        | false        |
-  | 취소 완료   | false    | true        | true         |
+  |--------|----------|-------------|-------------|
+  | 생성     | false    | false       | false       |
+  | 실행 중   | true     | false       | false       |
+  | 실행 완료  | false    | false       | true        |
+  | 취소 중   | false    | true        | false       |
+  | 취소 완료  | false    | true        | true        |
