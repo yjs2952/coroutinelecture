@@ -48,4 +48,10 @@
 ### 코루틴 Job 순차 처리
 - join, joinAll 함수를 활용하여 작업이 끝날 때 까지 대기 
 
-
+### 지연 코루틴 (Lazy Coroutine)
+- dispatcher 에 CoroutineStart.LAZY 인자를 주면 지연 코루틴이 생성됨
+- 코루틴이 시작되기 전까지는 아무 작업도 수행하지 않음
+- start 함수 호출 시 코루틴이 시작됨
+  - join 함수 호출 시에도 코루틴이 시작되지만 runBlocking 함수를 일시 중단한다
+  - start 함수는 runBlocking 함수를 일시 중단하지 않고 다른 작업을 바로 할 수 있다
+- 코루틴이 시작되기 전까지는 코루틴의 상태가 CREATED 상태
