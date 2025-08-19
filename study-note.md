@@ -133,3 +133,22 @@
 - 코루틴 제어에 Job 객체가 필요하기 때문에, Job 객체를 가진 부모 코루틴 으로 부터 상속 받지 않는다.
 - 즉, 코루틴 빌더를 통해 생성된 코루틴들은 서로 다른 Job 을 가진다. 
 
+## 섹션 8
+### 예외 전파
+- 자식 코루틴이 예외를 발생시키면 부모 코루틴에도 예외가 전파된다.
+  - 같은 부모를 가진 형제 코루틴에도 예외가 전파된다.
+- SupervisorJob
+  - 자식 코루틴이 예외를 발생시켜도 부모 코루틴에 예외가 전파되지 않음
+  - 자식 코루틴이 예외를 발생시켜도 다른 자식 코루틴은 영향을 받지 않음
+  - 생성 함수로 만들어 낼 경우 명시적으로 complete() 해줘야한다 
+- CoroutineScope(SupervisorJob())
+  - SupervisorJob을 사용하여 부모 코루틴을 생성
+  - SupervisorJob만 사용하는 경우 모든 자식 코루틴에 부모 Job 을 명시적으로 전달해야 함
+- supervisorScope 
+  - suspend 함수로, 내부에서 생성된 자식 코루틴에 부모 Job 을 자동으로 전달
+  - complete() 안해도 됨
+  - 구조화를 깨지도 않음
+
+### CoroutineExceptionHandler
+- 코루틴에서 발생한 예외를 처리하는 핸들러
+- CoroutineExceptionHandler는 launch 코루틴으로 시작되는 코루틴 계층의 공통 예외 처리기로 동작하는 구성요소이다
